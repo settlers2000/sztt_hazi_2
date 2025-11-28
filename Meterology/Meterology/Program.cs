@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 
 List<Data> list = new List<Data>();
-Console.WriteLine("Hello, World!\n");
+Console.WriteLine("Hello, World!");
 
 string command;
 while ((command = Console.ReadLine().ToLower()) != "exit")
@@ -10,7 +10,7 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
     switch (command)
     {
         case "start":
-            Console.WriteLine("Hello There!\n");
+            Console.WriteLine("Hello There!");
             break;
     }
 }
