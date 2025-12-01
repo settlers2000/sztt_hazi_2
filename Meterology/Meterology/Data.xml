@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<Database>
+  <Data>
+    <Timestamp>2025-01-01T8:00:00</Timestamp>
+    <Value>3.2</Value>
+    <Unit>°c</Unit>
+    <Source>import</Source>
+    <Sensor>north_sensor</Sensor>
+  </Data>
+  <Data>
+    <Timestamp>2025-01-01T9:00:00</Timestamp>
+    <Value>4.1</Value>
+    <Unit>°c</Unit>
+    <Source>import</Source>
+    <Sensor>north_sensor</Sensor>
+  </Data>
+ <Data>
+    <Timestamp>2025-01-01T10:00:00</Timestamp>
+    <Value>39.8</Value>
+    <Unit>%</Unit>
+    <Source>import</Source>
+  </Data>
+ <Data>
+    <Timestamp>2025-01-01T10:15:00</Timestamp>
+    <Value>1012.4</Value>
+    <Unit>hpa</Unit>
+    <Source>generated</Source>
+    <Sensor>humidity_A</Sensor>
+  </Data>
+</Database>
+
