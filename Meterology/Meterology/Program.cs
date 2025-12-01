@@ -1,6 +1,6 @@
 ﻿using Meterology;
-using System.Linq.Expressions;
 
+FileManager fileManager = new FileManager();
 List<Data> list = new List<Data>();
 Console.WriteLine("Hello, World!");
 
@@ -11,6 +11,10 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
     {
         case "start":
             Console.WriteLine("Hello There!");
+            break;
+
+        case "import":
+            fileManager.importFromFile();
             break;
     }
 }
