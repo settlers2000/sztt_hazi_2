@@ -67,6 +67,8 @@ namespace Meterology
                 Console.WriteLine("Makin a filter...\nInput Time Interval (From,To):\nyy-mm-ddThh:mm:ss,yy-mm-ddThh:mm:ss\nOr (From,-) Or (-,To)");
                 temp = Console.ReadLine();
                 string[] token = temp.Split(",");
+                if (token[0] == "-") { token[0] = null; }
+                else if (token[1] == "-") { token[1] = null; }
                 DateTime[] time = { DateTime.Parse(token[0]), DateTime.Parse(token[1]) };
                 Console.WriteLine("Input Minimal value:");
                 var min = int.Parse(Console.ReadLine());
@@ -122,28 +124,34 @@ namespace Meterology
 
         public void filter(DateTime[] time, double min, double max, string unit)
         {
-            List<Data> filter = new List<Data>();
-            foreach (var data in list)
+            List<Data> filter = list;
+            foreach (var data in filter)
             {
                 if(time != null)
                 {
-
+                    if (time[0] != null)
+                    {
+                        filter = filter.Where(data => (data.timestamp > time[0])).ToList();
+                    }
+                    else if(time[1] != null)
+                    {
+                        filter = filter.Where(data => (data.timestamp < time[1])).ToList();
+                    }
                 }
                 else if(min != null)
                 {
-
+                    filter = filter.Where(data => (data.value > min)).ToList();
                 }
                 else if(max != null)
                 {
-
+                    filter = filter.Where(data => (data.value < max)).ToList();
                 }
                 else if(unit != null)
                 {
-
+                    filter = filter.Where(data => (data.unit == unit)).ToList();
                 }
-                Console.WriteLine(data);
             }
-            Console.WriteLine("\n");
+            Console.WriteLine(filter + "\n");
         }
     }
 }
