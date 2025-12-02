@@ -23,7 +23,7 @@ namespace Meterology
                 var input = Console.ReadLine().ToLower();
                 if (input == "import")
                 {
-                    Console.WriteLine("Wich file? (Now usable for test: Data, Dataempty, Datawrong.xml)");
+                    Console.WriteLine("Wich file? (Now usable for test: Data, Dataempty, Datamix Datawrong.xml)");
                     var file = Console.ReadLine();
                     list = fileManager.importFromFile(file);
                     break;
@@ -94,6 +94,10 @@ namespace Meterology
                 Data data = new Data(timestamp, value, unit, source, sensor);
                 list.Add(data);
             }
+            list.Sort(delegate (Data x, Data y)
+            {
+                return x.timestamp.CompareTo(y.timestamp);
+            });
             Console.WriteLine("Generated successfully!");
         }
     }

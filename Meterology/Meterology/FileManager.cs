@@ -30,6 +30,10 @@ namespace Meterology
                     numberOfDataLoaded++;
                 }
 
+                list.Sort(delegate (Data x, Data y)
+                {
+                    return x.timestamp.CompareTo(y.timestamp);
+                });
                 Console.WriteLine("Imported successfully!");
             }
             catch(FileNotFoundException e)

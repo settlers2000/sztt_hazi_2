@@ -9,11 +9,68 @@ namespace Meterology
 {
     internal class Data
     {
-        private DateTime timestamp;
-        private double value;
-        private string unit;
-        private bool imported;
-        private string? sensor;
+        private DateTime _timestamp;
+        private double _value;
+        private string _unit;
+        private bool _imported;
+        private string? _sensor;
+
+        public DateTime timestamp
+        {
+            get
+            {
+                return _timestamp;
+            }
+            set
+            {
+                _timestamp = value;
+            }
+        }
+        public double value
+        {
+            get
+            {
+                return _value;
+            }
+            set
+            {
+                _value = value;
+            }
+        }
+        public string unit              
+        {
+            get
+            {
+                return _unit;
+            }
+            set
+            {
+                _unit = value;
+            }
+        }
+        public bool imported
+        {
+            get
+            {
+                return _imported;
+            }
+            set
+            {
+                _imported = value;
+            }
+        }
+        public string sensor
+        {
+            get
+            {
+                return _sensor;
+            }
+            set
+            {
+                _sensor = value;
+            }
+        }
+
         public Data(DateTime timestamp, double value, string unit, bool imported, string sensor)
         {
             this.timestamp = timestamp;
