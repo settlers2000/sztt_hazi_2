@@ -6,13 +6,13 @@ namespace Meterology
     internal class FileManager
     {
 
-        public List<Data> importFromFile()
+        public List<Data> importFromFile(string file)
         {
             List<Data> list = new List<Data>();
             int numberOfDataLoaded = 0, numberOfDataLost = 0;
             try
             {
-                XDocument database = XDocument.Load("Data.xml");
+                XDocument database = XDocument.Load(file);
                 if (database == null ) { throw new FileLoadException(); }
                 numberOfDataLost = database.Descendants("Data").Count();
 
@@ -30,6 +30,7 @@ namespace Meterology
                     numberOfDataLoaded++;
                 }
 
+                Console.WriteLine("Imported successfully!");
             }
             catch(FileNotFoundException e)
             {
@@ -48,7 +49,6 @@ namespace Meterology
                 numberOfDataLost -= numberOfDataLoaded; 
                 Console.WriteLine("Wrong format error!\nSuccessfully loaded data: " + numberOfDataLoaded + "\nFailed data: " +numberOfDataLost);
             }
-
             return list;
         }
     }

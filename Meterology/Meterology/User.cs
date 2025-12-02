@@ -23,8 +23,9 @@ namespace Meterology
                 var input = Console.ReadLine().ToLower();
                 if (input == "import")
                 {
-                    list = fileManager.importFromFile();
-                    Console.WriteLine("imported");
+                    Console.WriteLine("Wich file? (Now usable for test: Data, Dataempty, Datawrong.xml)");
+                    var file = Console.ReadLine();
+                    list = fileManager.importFromFile(file);
                     break;
                 }
                 else if (input == "generate")
