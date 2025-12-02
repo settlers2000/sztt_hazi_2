@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,7 +61,25 @@ namespace Meterology
 
         public void filerData()
         {
-
+            try
+            {
+                string temp;
+                Console.WriteLine("Makin a filter...\nInput Time Interval (From,To):\nyy-mm-ddThh:mm:ss,yy-mm-ddThh:mm:ss\nOr (From,-) Or (-,To)");
+                temp = Console.ReadLine();
+                string[] token = temp.Split(",");
+                DateTime[] time = { DateTime.Parse(token[0]), DateTime.Parse(token[1]) };
+                Console.WriteLine("Input Minimal value:");
+                var min = int.Parse(Console.ReadLine());
+                Console.WriteLine("Input Maximal value:");
+                var max = int.Parse(Console.ReadLine());
+                Console.WriteLine("Input unit:");
+                var unit = Console.ReadLine();
+                filter(time, min, max, unit);
+            }
+            catch (System.FormatException e)
+            {
+                Console.WriteLine("Wrong format used!");
+            }
         }
 
         public void showData()
@@ -99,6 +118,32 @@ namespace Meterology
                 return x.timestamp.CompareTo(y.timestamp);
             });
             Console.WriteLine("Generated successfully!");
+        }
+
+        public void filter(DateTime[] time, double min, double max, string unit)
+        {
+            List<Data> filter = new List<Data>();
+            foreach (var data in list)
+            {
+                if(time != null)
+                {
+
+                }
+                else if(min != null)
+                {
+
+                }
+                else if(max != null)
+                {
+
+                }
+                else if(unit != null)
+                {
+
+                }
+                Console.WriteLine(data);
+            }
+            Console.WriteLine("\n");
         }
     }
 }
