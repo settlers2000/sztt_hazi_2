@@ -84,7 +84,7 @@ namespace Meterology
             for (int i = 0; i < num; i++)
             {
                 TimeSpan timespan = time[1] - time[0];
-                TimeSpan newspan = new TimeSpan(rand.Next(0, (int)timespan.TotalMinutes));
+                TimeSpan newspan = new TimeSpan(0, rand.Next(0, (int)timespan.TotalMinutes), 0);
                 var timestamp = time[0] + newspan;
                 var value = rand.NextDouble() * (range[1] - range[0]) + range[0];
                 var unit = "idk yet but im dead";
