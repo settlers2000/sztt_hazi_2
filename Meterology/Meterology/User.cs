@@ -101,7 +101,6 @@ namespace Meterology
             {
                 Console.WriteLine(data);
             }
-            Console.WriteLine("\n");
         }
 
         public void analyseData()
@@ -144,7 +143,7 @@ namespace Meterology
                     {
                         filter = filter.Where(data => (data.timestamp > time[0])).ToList();
                     }
-                    else if(time[1] != default)
+                    if(time[1] != default)
                     {
                         filter = filter.Where(data => (data.timestamp < time[1])).ToList();
                     }
@@ -157,7 +156,7 @@ namespace Meterology
                 {
                     filter = filter.Where(data => (data.value < max)).ToList();
                 }
-                if(unit != null)
+                if(!string.IsNullOrEmpty(unit))
                 {
                     filter = filter.Where(data => (data.unit == unit)).ToList();
                 }
@@ -166,7 +165,6 @@ namespace Meterology
             {
                 Console.WriteLine(data);
             }
-            Console.WriteLine("\n");
         }
     }
 }
