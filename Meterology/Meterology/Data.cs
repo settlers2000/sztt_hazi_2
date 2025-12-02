@@ -73,11 +73,11 @@ namespace Meterology
 
         public Data(DateTime timestamp, double value, string unit, bool imported, string sensor)
         {
-            this.timestamp = timestamp;
-            this.value = value;
-            this.unit = unit;
-            this.imported = imported;
-            this.sensor = sensor;
+            this._timestamp = timestamp;
+            this._value = value;
+            this._unit = unit;
+            this._imported = imported;
+            this._sensor = sensor;
         }
 
         public void changeUnit()

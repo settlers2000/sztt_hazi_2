@@ -10,9 +10,21 @@ namespace Meterology
     internal class User
     {
         private List<Data> list;
-        public User()
+        private string _name;
+        public string name
         {
-
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+            }
+        }
+        public User(string name)
+        {
+            this._name = name;
         }
 
         public void loadData()
@@ -97,9 +109,12 @@ namespace Meterology
 
         public void showData()
         {
-            foreach(var data in list)
+            if(list != null) 
             {
-                Console.WriteLine(data);
+                foreach (var data in list)
+                {
+                    Console.WriteLine(data);
+                }
             }
         }
 

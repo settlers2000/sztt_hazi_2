@@ -8,7 +8,9 @@ namespace Meterology
 {
     internal class Admin : User
     {
-        public Admin() { }
+        public Admin(string name) : base(name)
+        {
+        }
 
         public void deleteAll()
         {
