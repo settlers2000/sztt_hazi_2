@@ -13,7 +13,7 @@ namespace Meterology
         private double value;
         private string unit;
         private bool imported;
-        private string sensor;
+        private string? sensor;
         public Data(DateTime timestamp, double value, string unit, bool imported, string sensor)
         {
             this.timestamp = timestamp;
@@ -30,7 +30,7 @@ namespace Meterology
 
         public override string ToString()
         {
-            return "Timestamp:" + timestamp + "\nValue:" + value + "Unit:" + unit + "Source" + (imported == true ? "imported" : "generated") + "Sensor" + sensor; 
+            return "\nTimestamp: " + timestamp + "\nValue: " + value + "\nUnit: " + unit + "\nSource: " + (imported == true ? "imported" : "generated") + (sensor != null ? "\nSensor: " + sensor : null); 
         }
     }
 }
