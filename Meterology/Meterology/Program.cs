@@ -1,6 +1,6 @@
 ﻿using Meterology;
 
-FileManager fileManager = new FileManager();
+User user = new User();
 List<Data> list;
 Console.WriteLine("Hello, World!");
 
@@ -13,8 +13,12 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
             Console.WriteLine("Hello There!");
             break;
 
-        case "import":
-            fileManager.importFromFile();
+        case "load":
+            user.loadData();
+            break;
+
+        case "list":
+            user.showData();
             break;
     }
 }

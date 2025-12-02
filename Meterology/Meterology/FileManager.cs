@@ -12,7 +12,7 @@ namespace Meterology
     internal class FileManager
     {
 
-        public void importFromFile()
+        public List<Data> importFromFile()
         {
             List<Data> list = new List<Data>();
             XDocument database = XDocument.Load("Data.xml");
@@ -29,11 +29,8 @@ namespace Meterology
                 Data data = new Data(timestamp, value, unit, source == "imported" ? true : false , sensor);
                 list.Add(data);
             }
-            
-            foreach(var data in list)
-            {
-                Console.WriteLine(data);
-            }
+
+            return list;
         }
     }
 }

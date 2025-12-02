@@ -8,6 +8,7 @@ namespace Meterology
 {
     internal class User
     {
+        private List<Data> list;
         public User()
         {
 
@@ -15,7 +16,33 @@ namespace Meterology
 
         public void loadData()
         {
+            FileManager fileManager = new FileManager();
+            Console.WriteLine("Do you want to import or generate data?");
+            while (true)
+            {
+                var input = Console.ReadLine().ToLower();
+                if (input == "import")
+                {
+                    list = fileManager.importFromFile();
+                    Console.WriteLine("imported");
+                    break;
+                }
+                else if (input == "generate")
+                {
+                    Console.WriteLine("Generating Data...\nInput Time Interval:");
+                    var time = Console.ReadLine();
+                    Console.WriteLine("Input Number Of Data To Generate:");
+                    var num = int.Parse(Console.ReadLine());
+                    Console.WriteLine("Input Value Range:");
+                    var range = Console.ReadLine();
 
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid command");
+                }
+            }
         }
 
         public void filerData()
@@ -25,7 +52,10 @@ namespace Meterology
 
         public void showData()
         {
-
+            foreach(var data in list)
+            {
+                Console.WriteLine(data);
+            }
         }
 
         public void analyseData()
