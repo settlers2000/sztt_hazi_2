@@ -1,7 +1,7 @@
 ﻿using Meterology;
 
 FileManager fileManager = new FileManager();
-List<Data> list = new List<Data>();
+List<Data> list;
 Console.WriteLine("Hello, World!");
 
 string command;

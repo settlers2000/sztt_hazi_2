@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -13,14 +14,26 @@ namespace Meterology
 
         public void importFromFile()
         {
-            XDocument data = XDocument.Load("Data.xml");
+            List<Data> list = new List<Data>();
+            XDocument database = XDocument.Load("Data.xml");
 
-            foreach(var node in data.Root.Elements("Data"))
+            foreach(var node in database.Root.Elements("Data"))
             {
-                var timestamp = node.Element("Timestamp").Value;
-                Console.WriteLine(timestamp);
+                //var timestamp = DateTime.ParseExact(node.Element("Timestamp").Value, "F", null);
+                var timestamp = DateTime.Parse(node.Element("Timestamp").Value);
+                var value = double.Parse(node.Element("Value").Value);
+                var unit = node.Element("Unit").Value;
+                var source = node.Element("Source").Value;
+                var sensor = node.Element("Sensor")?.Value;
+
+                Data data = new Data(timestamp, value, unit, source == "imported" ? true : false , sensor);
+                list.Add(data);
             }
             
+            foreach(var data in list)
+            {
+                Console.WriteLine(data);
+            }
         }
     }
 }

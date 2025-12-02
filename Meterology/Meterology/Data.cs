@@ -27,5 +27,10 @@ namespace Meterology
         {
 
         }
+
+        public override string ToString()
+        {
+            return "Timestamp:" + timestamp + "\nValue:" + value + "Unit:" + unit + "Source" + (imported == true ? "imported" : "generated") + "Sensor" + sensor; 
+        }
     }
 }
