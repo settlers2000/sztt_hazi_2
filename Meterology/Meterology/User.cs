@@ -59,21 +59,32 @@ namespace Meterology
             }
         }
 
-        public void filerData()
+        public void filterData()
         {
             try
             {
                 string temp;
+                double min, max;
                 Console.WriteLine("Makin a filter...\nInput Time Interval (From,To):\nyy-mm-ddThh:mm:ss,yy-mm-ddThh:mm:ss\nOr (From,-) Or (-,To)");
                 temp = Console.ReadLine();
                 string[] token = temp.Split(",");
                 if (token[0] == "-") { token[0] = null; }
                 else if (token[1] == "-") { token[1] = null; }
-                DateTime[] time = { DateTime.Parse(token[0]), DateTime.Parse(token[1]) };
+                DateTime[] time = { token[0] == null ? default : DateTime.Parse(token[0]) , token[1] == null ? default : DateTime.Parse(token[1]) };
                 Console.WriteLine("Input Minimal value:");
-                var min = int.Parse(Console.ReadLine());
+                temp = Console.ReadLine();
+                if(!string.IsNullOrEmpty(temp))
+                {
+                    min = double.Parse(temp);
+                }
+                else { min = default; }
                 Console.WriteLine("Input Maximal value:");
-                var max = int.Parse(Console.ReadLine());
+                temp = Console.ReadLine();
+                if (!string.IsNullOrEmpty(temp))
+                {
+                    max = double.Parse(temp);
+                }
+                else { max = default; }
                 Console.WriteLine("Input unit:");
                 var unit = Console.ReadLine();
                 filter(time, min, max, unit);
@@ -129,29 +140,33 @@ namespace Meterology
             {
                 if(time != null)
                 {
-                    if (time[0] != null)
+                    if (time[0] != default)
                     {
                         filter = filter.Where(data => (data.timestamp > time[0])).ToList();
                     }
-                    else if(time[1] != null)
+                    else if(time[1] != default)
                     {
                         filter = filter.Where(data => (data.timestamp < time[1])).ToList();
                     }
                 }
-                else if(min != null)
+                if(min != default)
                 {
                     filter = filter.Where(data => (data.value > min)).ToList();
                 }
-                else if(max != null)
+                if(max != default)
                 {
                     filter = filter.Where(data => (data.value < max)).ToList();
                 }
-                else if(unit != null)
+                if(unit != null)
                 {
                     filter = filter.Where(data => (data.unit == unit)).ToList();
                 }
             }
-            Console.WriteLine(filter + "\n");
+            foreach (var data in filter)
+            {
+                Console.WriteLine(data);
+            }
+            Console.WriteLine("\n");
         }
     }
 }

@@ -21,6 +21,10 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
             user.showData();
             break;
 
+        case "filter":
+            user.filterData();
+            break;
+
         default:
             Console.WriteLine("Invalid Command!");
             break;
