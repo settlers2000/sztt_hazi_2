@@ -20,6 +20,10 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
         case "list":
             user.showData();
             break;
+
+        default:
+            Console.WriteLine("Invalid Command!");
+            break;
     }
 }
 Console.WriteLine("Bye");

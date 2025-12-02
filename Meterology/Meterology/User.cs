@@ -56,6 +56,7 @@ namespace Meterology
             {
                 Console.WriteLine(data);
             }
+            Console.WriteLine("\n");
         }
 
         public void analyseData()
