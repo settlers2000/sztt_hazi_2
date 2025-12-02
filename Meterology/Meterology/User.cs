@@ -79,7 +79,22 @@ namespace Meterology
 
         public void generate(DateTime[] time, int num, double[] range)
         {
+            Random rand = new Random();
+            for (int i = 0; i < num; i++)
+            {
+                TimeSpan timespan = time[0] - time[1];
+                TimeSpan newspan = new TimeSpan(rand.Next(0, (int)timespan.TotalMinutes));
+                var timestamp = time[0] + newspan;
+                var value = rand.NextDouble() * (range[1] - range[0]) + range[0];
+                var unit = "idk yet but im dead";
+                var source = false;
+                var sensor = "does it need one?";
 
+                Data data = new Data(timestamp, value, unit, source, sensor);
+                list.Add(data);
+            }
+
+            Console.WriteLine("Generated successfully!");
         }
     }
 }
