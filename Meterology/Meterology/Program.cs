@@ -1,8 +1,21 @@
 ﻿using Meterology;
 
-User user = new User();
 List<Data> list;
-Console.WriteLine("Hello, World!");
+User user;
+Console.WriteLine("Meterology Database\nInput username:");
+
+while (true)
+{
+    string username = Console.ReadLine();
+    if (!(string.IsNullOrEmpty(username)))
+    {
+        user = new User(username);
+        Console.WriteLine("Welcome" + username + "!");
+        break;
+    }
+}
+
+
 
 string command;
 while ((command = Console.ReadLine().ToLower()) != "exit")
@@ -23,6 +36,10 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
 
         case "filter":
             user.filterData();
+            break;
+
+        case "analyse":
+            user.analyseData();
             break;
 
         default:
