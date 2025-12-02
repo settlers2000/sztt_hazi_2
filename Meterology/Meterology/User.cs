@@ -30,13 +30,17 @@ namespace Meterology
                 }
                 else if (input == "generate")
                 {
-                    Console.WriteLine("Generating Data...\nInput Time Interval:");
-                    var time = Console.ReadLine();
+                    string temp;
+                    Console.WriteLine("Generating Data...\nInput Time Interval (From-To):\nyy-mm-ddThh:mm:ss,yy-mm-ddThh:mm:ss");
+                    temp = Console.ReadLine();
+                    string[] token = temp.Split(",");
+                    DateTime[] time = { DateTime.Parse(token[0]), DateTime.Parse(token[1]) };
                     Console.WriteLine("Input Number Of Data To Generate:");
                     var num = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Input Value Range:");
-                    var range = Console.ReadLine();
-
+                    Console.WriteLine("Input Value Range (1,200):");
+                    temp = Console.ReadLine();
+                    token = temp.Split(",");
+                    double[] range = { double.Parse(token[0]), double.Parse(token[1]) };
                     break;
                 }
                 else
