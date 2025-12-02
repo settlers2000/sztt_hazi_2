@@ -105,7 +105,21 @@ namespace Meterology
 
         public void analyseData()
         {
+            string temp;
+            Console.WriteLine("Analysing data...\nMaking statistics of minimum, maximum, average, size(number of data):\nDo you want day by day statistic?");
+            temp = Console.ReadLine();
+            if(temp == "yes" || temp == "y")
+            {
 
+            }
+            else if(temp == "no" || temp == "n")
+            {
+
+            }
+            else
+            {
+                Console.WriteLine("Invalid Command!");
+            }
         }
 
         public void generate(DateTime[] time, int num, double[] range)
