@@ -20,7 +20,7 @@ while (true)
         {
             user = users.Find(x => x.name == username);
         }
-        Console.WriteLine("Welcome " + user.name.ToString() + "!");
+        Console.WriteLine("Welcome " + user.name + "!");
         break;
     }
 }
@@ -53,11 +53,11 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
             break;
 
         case "user":
-            Console.WriteLine(user + "\nChange user or input password?");
+            Console.WriteLine(user.name + "\nChange user or input password?");
             while (true)
             {
                 string command2 = Console.ReadLine();
-                if(command == "change")
+                if(command2 == "change")
                 {
                     Console.WriteLine("Input username:");
                     string username = Console.ReadLine();
@@ -76,11 +76,11 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
                         break;
                     }
                 }
-                else if(command == "password")
+                else if(command2 == "password")
                 {
 
                 }
-                else if (command == "back")
+                else if (command2 == "back")
                 {
 
                 }
@@ -89,6 +89,9 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
                     Console.WriteLine("Invalid command!");
                 }
             }
+            break;
+
+        case "back":
             break;
 
         default:
