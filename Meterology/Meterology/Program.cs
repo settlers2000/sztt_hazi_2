@@ -13,9 +13,9 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
 {
     if (command == "login")
     {
-        Console.WriteLine("Input username:");
         while (true)
         {
+            Console.WriteLine("Input username:");
             string username = Console.ReadLine();
             if (!(string.IsNullOrEmpty(username)))
             {
@@ -35,7 +35,7 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
         Console.WriteLine("Welcome " + user.name + "!");
 
 
-        while ((command = Console.ReadLine().ToLower()) != "back")
+        while ((command = Console.ReadLine().ToLower()) != "logout")
         {
             switch (command)
             {
@@ -85,11 +85,23 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
                         }
                         else if (command2 == "password")
                         {
-
+                            Console.WriteLine("Input password:");
+                            string password = Console.ReadLine();
+                            if(password == "admin123")
+                            {
+                                string temp = user.name;
+                                users.Remove(users.Find(x => x.name == user.name));
+                                user = new Admin(temp);
+                                users.Add(user);
+                            }
+                            else
+                            {
+                                Console.WriteLine("Incorrect password!");
+                            }
                         }
                         else if (command2 == "back")
                         {
-
+                            break;
                         }
                         else
                         {
@@ -99,7 +111,7 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
                     break;
 
                 case "help":
-                    Console.WriteLine("load\nlist\nfilter\nanalyse\nuser\nback");
+                    Console.WriteLine("\nload\nlist\nfilter\nanalyse\nuser\nlogout\n");
                     break;
 
                 default:
@@ -110,7 +122,11 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
     }
     else if(command == "help")
     {
-        Console.WriteLine("login\nexit");
+        Console.WriteLine("\nlogin\nexit\n");
+    }
+    else
+    {
+        Console.WriteLine("Invalid command!");
     }
 }
-Console.WriteLine("Bye");
+Console.WriteLine("Bye"); 
