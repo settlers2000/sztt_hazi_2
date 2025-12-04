@@ -44,7 +44,11 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
                     break;
 
                 case "load":
-                    list.Concat(user.loadData());
+                    list.AddRange(user.loadData());
+                    list.Sort(delegate (Data x, Data y)
+                    {
+                        return x.timestamp.CompareTo(y.timestamp);
+                    });
                     break;
 
                 case "list":

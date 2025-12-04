@@ -155,42 +155,37 @@ namespace Meterology
                 Data data = new Data(timestamp, value, unit, source, sensor);
                 list.Add(data);
             }
-            list.Sort(delegate (Data x, Data y)
-            {
-                return x.timestamp.CompareTo(y.timestamp);
-            });
             Console.WriteLine("Generated successfully!");
         }
 
         public void filter(List<Data> list, DateTime[] time, double min, double max, string unit)
         {
             List<Data> filter = list;
-            foreach (var data in filter)
+
+            if (time != null)
             {
-                if(time != null)
+                if (time[0] != default)
                 {
-                    if (time[0] != default)
-                    {
-                        filter = filter.Where(data => (data.timestamp > time[0])).ToList();
-                    }
-                    if(time[1] != default)
-                    {
-                        filter = filter.Where(data => (data.timestamp < time[1])).ToList();
-                    }
+                    filter = filter.Where(data => (data.timestamp > time[0])).ToList();
                 }
-                if(min != default)
+                if (time[1] != default)
                 {
-                    filter = filter.Where(data => (data.value > min)).ToList();
-                }
-                if(max != default)
-                {
-                    filter = filter.Where(data => (data.value < max)).ToList();
-                }
-                if(!string.IsNullOrEmpty(unit))
-                {
-                    filter = filter.Where(data => (data.unit == unit)).ToList();
+                    filter = filter.Where(data => (data.timestamp < time[1])).ToList();
                 }
             }
+            if (min != default)
+            {
+                filter = filter.Where(data => (data.value > min)).ToList();
+            }
+            if (max != default)
+            {
+                filter = filter.Where(data => (data.value < max)).ToList();
+            }
+            if (!string.IsNullOrEmpty(unit))
+            {
+                filter = filter.Where(data => (data.unit == unit)).ToList();
+            }
+
             foreach (var data in filter)
             {
                 Console.WriteLine(data);
