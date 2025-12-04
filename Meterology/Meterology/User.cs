@@ -9,7 +9,6 @@ namespace Meterology
 {
     internal class User
     {
-        private List<Data> list;
         private string _name;
         public string name
         {
@@ -27,8 +26,9 @@ namespace Meterology
             this._name = name;
         }
 
-        public void loadData()
+        public List<Data> loadData()
         {
+            List<Data> list = new List<Data>();
             FileManager fileManager = new FileManager();
             Console.WriteLine("Do you want to import or generate data?");
             while (true)
@@ -56,7 +56,7 @@ namespace Meterology
                         temp = Console.ReadLine();
                         token = temp.Split(",");
                         double[] range = { double.Parse(token[0]), double.Parse(token[1]) };
-                        generate(time, num, range);
+                        generate(list, time, num, range);
                     }
                     catch(System.FormatException e)
                     {
@@ -69,9 +69,10 @@ namespace Meterology
                     Console.WriteLine("Invalid command");
                 }
             }
+            return list;
         }
 
-        public void filterData()
+        public void filterData(List<Data> list)
         {
             try
             {
@@ -99,7 +100,7 @@ namespace Meterology
                 else { max = default; }
                 Console.WriteLine("Input unit:");
                 var unit = Console.ReadLine();
-                filter(time, min, max, unit);
+                filter(list, time, min, max, unit);
             }
             catch (System.FormatException e)
             {
@@ -107,7 +108,7 @@ namespace Meterology
             }
         }
 
-        public void showData()
+        public void showData(List<Data> list)
         {
             if(list != null) 
             {
@@ -118,7 +119,7 @@ namespace Meterology
             }
         }
 
-        public void analyseData()
+        public void analyseData(List<Data> list)
         {
             string temp;
             Console.WriteLine("Analysing data...\nMaking statistics of minimum, maximum, average, size(number of data):\nDo you want day by day statistic?");
@@ -137,7 +138,7 @@ namespace Meterology
             }
         }
 
-        public void generate(DateTime[] time, int num, double[] range)
+        public void generate(List<Data> list, DateTime[] time, int num, double[] range)
         {
             list = new List<Data>();
             Random rand = new Random();
@@ -161,7 +162,7 @@ namespace Meterology
             Console.WriteLine("Generated successfully!");
         }
 
-        public void filter(DateTime[] time, double min, double max, string unit)
+        public void filter(List<Data> list, DateTime[] time, double min, double max, string unit)
         {
             List<Data> filter = list;
             foreach (var data in filter)

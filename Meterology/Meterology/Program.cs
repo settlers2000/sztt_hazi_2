@@ -2,7 +2,7 @@
 using System.Data;
 using System.Runtime.CompilerServices;
 
-List<Data> list;
+List<Data> list = new List<Data>();
 List<User> users = new List<User>();
 User user;
 
@@ -44,19 +44,19 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
                     break;
 
                 case "load":
-                    user.loadData();
+                    list.Concat(user.loadData());
                     break;
 
                 case "list":
-                    user.showData();
+                    user.showData(list);
                     break;
 
                 case "filter":
-                    user.filterData();
+                    user.filterData(list);
                     break;
 
                 case "analyse":
-                    user.analyseData();
+                    user.analyseData(list);
                     break;
 
                 case "user":
