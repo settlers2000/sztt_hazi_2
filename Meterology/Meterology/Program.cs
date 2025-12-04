@@ -39,10 +39,6 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
         {
             switch (command)
             {
-                case "start":
-                    Console.WriteLine("Hello There!");
-                    break;
-
                 case "load":
                     list.AddRange(user.loadData());
                     list.Sort(delegate (Data x, Data y)
@@ -107,6 +103,10 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
                         {
                             break;
                         }
+                        else if (command2 == "help")
+                        {
+                            Console.WriteLine("\nchange\npassword\nback\n");
+                        }
                         else
                         {
                             Console.WriteLine("Invalid command!");
@@ -114,8 +114,14 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
                     }
                     break;
 
+                case "delete":
+                    break;
+
+                case "unit":
+                    break;
+
                 case "help":
-                    Console.WriteLine("\nload\nlist\nfilter\nanalyse\nuser\nlogout\n");
+                    Console.WriteLine("\nload\nlist\nfilter\nanalyse\nuser\ndelete\nunit\nlogout\n");
                     break;
 
                 default:

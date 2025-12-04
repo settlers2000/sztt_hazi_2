@@ -64,6 +64,14 @@ namespace Meterology
                     }
                     break;
                 }
+                else if (input == "help")
+                {
+                    Console.WriteLine("\nimport\ngenerate\nback\n");
+                }
+                else if (input == "back")
+                {
+                    break;
+                }
                 else
                 {
                     Console.WriteLine("Invalid command");
@@ -123,18 +131,28 @@ namespace Meterology
         {
             string temp;
             Console.WriteLine("Analysing data...\nMaking statistics of minimum, maximum, average, size(number of data):\nDo you want day by day statistic?");
-            temp = Console.ReadLine();
-            if(temp == "yes" || temp == "y")
-            {
+            while (true) {
+                temp = Console.ReadLine();
+                if (temp == "yes" || temp == "y")
+                {
 
-            }
-            else if(temp == "no" || temp == "n")
-            {
+                }
+                else if (temp == "no" || temp == "n")
+                {
 
-            }
-            else
-            {
-                Console.WriteLine("Invalid Command!");
+                }
+                else if (temp == "back")
+                {
+                    break;
+                }
+                else if (temp == "help")
+                {
+                    Console.WriteLine("\nyes/y\nno/n\nback\n");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Command!");
+                }
             }
         }
 
