@@ -12,9 +12,9 @@ namespace Meterology
         {
         }
 
-        public void deleteAll()
+        public void deleteAll(List<Data> list)
         {
-            
+            list.Clear();
         }
 
         public void changeUnit()

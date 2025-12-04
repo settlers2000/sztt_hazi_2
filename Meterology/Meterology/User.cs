@@ -56,7 +56,7 @@ namespace Meterology
                         temp = Console.ReadLine();
                         token = temp.Split(",");
                         double[] range = { double.Parse(token[0]), double.Parse(token[1]) };
-                        generate(list, time, num, range);
+                        list = generate(time, num, range);
                     }
                     catch(System.FormatException e)
                     {
@@ -138,9 +138,9 @@ namespace Meterology
             }
         }
 
-        public void generate(List<Data> list, DateTime[] time, int num, double[] range)
+        public List<Data> generate(DateTime[] time, int num, double[] range)
         {
-            list = new List<Data>();
+            List<Data> list = new List<Data>();
             Random rand = new Random();
             for (int i = 0; i < num; i++)
             {
@@ -156,6 +156,7 @@ namespace Meterology
                 list.Add(data);
             }
             Console.WriteLine("Generated successfully!");
+            return list;
         }
 
         public void filter(List<Data> list, DateTime[] time, double min, double max, string unit)
