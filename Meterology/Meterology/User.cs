@@ -114,6 +114,10 @@ namespace Meterology
             {
                 Console.WriteLine("Wrong format used!");
             }
+            catch (System.IndexOutOfRangeException e)
+            {
+                Console.WriteLine("Wrong format used!");
+            }
         }
 
         public void showData(List<Data> list)

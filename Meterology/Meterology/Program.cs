@@ -115,9 +115,25 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
                     break;
 
                 case "delete":
+                    if(user is Admin admin)
+                    {
+                        admin.deleteAll(list);
+                    }
+                    else
+                    {
+                        Console.WriteLine("You dont have permission!");
+                    }
                     break;
 
                 case "unit":
+                    if (user is Admin admin2)
+                    {
+                        admin2.changeUnit(list);
+                    }
+                    else
+                    {
+                        Console.WriteLine("You dont have permission!");
+                    }
                     break;
 
                 case "help":
