@@ -43,6 +43,7 @@ namespace Meterology
 
         public static void changeDefaultUnit(List<Data> list, string unit)
         {
+            //Ha ismeretlen unitot kapunk.
             if (!map.ContainsKey(unit))
             {
                 Console.WriteLine("Unknown unit!");
@@ -50,16 +51,19 @@ namespace Meterology
             }
             else
             {
+                //kiválaszt a hashmapből
                 var targetRule = map[unit];
 
                 foreach(var data in list)
                 {
                     var current = data.unit;
 
+                    //ha a jelenlegi unit benne van a hashmapbe
                     if (map.ContainsKey(current))
                     {
                         var currentRule = map[current];
 
+                        //Összevetjük a 2 kategóriát és ha megegyezik átváltunk.
                         if(currentRule.category == targetRule.category)
                         {
                             double baseVal = currentRule.toBase(data.value);

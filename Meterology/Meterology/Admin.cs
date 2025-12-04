@@ -24,11 +24,16 @@ namespace Meterology
             {
                 Console.WriteLine("Input new default unit:");
                 String unit = Console.ReadLine();
-                foreach(var data in list)
+                if(!string.IsNullOrEmpty(unit)) 
                 {
-                    data.unit = unit;
+                    UnitConverter.changeDefaultUnit(list, unit);
+                    Console.WriteLine($"The new default unit is {unit}!");
                 }
-                Console.WriteLine($"The new default unit is {unit}!");
+                else
+                {
+                    Console.WriteLine("Wrong format!");
+                }
+                
             }
             else
             {
