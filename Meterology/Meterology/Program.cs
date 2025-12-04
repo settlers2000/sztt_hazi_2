@@ -6,6 +6,44 @@ List<Data> list = new List<Data>();
 List<User> users = new List<User>();
 User user;
 
+Dictionary<string, string> map = new Dictionary<string, string>()
+{
+    {"temperature","c"},
+    {"temperature","°c"},
+    {"temperature","f"},
+    {"temperature","°f"},
+    {"temperature","k"},
+
+    {"size","m"},
+    {"size","cm"},
+    {"size","mm"},
+    {"size","km"},
+    {"size","ft"},
+    {"size","in"},
+
+    {"pressure","hpa"},
+    {"pressure","mb"},
+    {"pressure","pa"},
+    {"pressure","bar"},
+    {"pressure","atm"},
+    {"pressure","mmhg"},
+    {"pressure","psi"},
+
+    {"wind", "m/s"},
+    {"wind", "km/h"},
+    {"wind", "mph"},
+    {"wind", "kt"},
+    {"wind", "kn"},
+
+    {"rain", "%"},
+};
+
+
+
+
+
+
+
 Console.WriteLine("Meterology Database");
 
 string command;
