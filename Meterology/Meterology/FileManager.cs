@@ -14,7 +14,6 @@ namespace Meterology
             {
                 XDocument database = XDocument.Load(file);
                 if (database == null ) { throw new FileLoadException(); }
-                numberOfDataLost = database.Descendants("Data").Count();
 
                 foreach (var node in database.Root.Elements("Data"))
                 {
@@ -34,6 +33,7 @@ namespace Meterology
                     catch (System.FormatException e)
                     {
                         numberOfDataLost++;
+                        continue;
                     }                
                 }
 
