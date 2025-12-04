@@ -6,43 +6,6 @@ List<Data> list = new List<Data>();
 List<User> users = new List<User>();
 User user;
 
-Dictionary<string, (string category, string baseunit, Func<double, double> logic)> map = new Dictionary<string, (string category, string baseunit, Func<double, double> logic)>()
-{
-    {"c", ("temperature", "°C", val => val)},
-    {"°c" , ("temperature", "°C", val => val)},
-    {"f" , ("temperature", "°C", val => (val - 32) / (5/9))},
-    {"°f" , ("temperature", "°C", val => (val - 32) / (5/9))},
-    {"k" , ("temperature", "°C", val => val - 273.15)},
-
-    {"m" , ("size", "m", val => val)},
-    {"dm" , ("size", "m", val => val / 10)},
-    {"cm" , ("size", "m", val => val / 100)},
-    {"mm" , ("size", "m", val => val / 1000)},
-    {"km" , ("size", "m", val => val *1000)},
-    {"ft" , ("size", "m", val => val * 0.3048)},
-    {"in" , ("size", "m", val => val * 0.0254)},
-
-    {"hpa", ("pressure", "hpa", val => val)},
-    {"mb" , ("pressure", "hpa", val => val)},
-    {"pa" , ("pressure", "hpa", val => val / 100)},
-    {"bar" , ("pressure", "hpa", val => val / 1000)},
-    {"atm" , ("pressure", "hpa", val => val * 1013.25)},
-    {"mmhg" , ("pressure", "hpa", val => val * 1.33322)},
-    {"psi" , ("pressure", "hpa", val => val * 68.9476)},
-
-    {"m/s" , ("wind", "m/s", val => val)},
-    {"km/h" , ("wind", "km/h", val => val / 3.6)},
-    {"mph" , ("wind", "mph", val => val * 0.44704)},
-    {"kt" , ("wind", "hpa", val => val * 0.51444)},
-    {"kn" , ("wind", "hpa", val => val * 0.51444)},
-
-    {"%" , ("rain", "%", val => val)},
-};
-
-
-
-
-
 
 
 Console.WriteLine("Meterology Database");

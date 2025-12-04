@@ -172,9 +172,8 @@ namespace Meterology
                 var value = rand.NextDouble() * (range[1] - range[0]) + range[0];
                 var unit = "idk yet but im dead";
                 var source = false;
-                var sensor = "does it need one?";
 
-                Data data = new Data(timestamp, value, unit, source, sensor);
+                Data data = new Data(timestamp, value, unit, source, null);
                 list.Add(data);
             }
             Console.WriteLine("Generated successfully!");

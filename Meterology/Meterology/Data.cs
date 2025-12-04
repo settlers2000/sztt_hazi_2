@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Meterology
 {
-    internal class Data
+    public class Data
     {
         private DateTime _timestamp;
         private double _value;
@@ -79,12 +79,6 @@ namespace Meterology
             this._imported = imported;
             this._sensor = sensor;
         }
-
-        public void changeUnit()
-        {
-
-        }
-
         public override string ToString()
         {
             return "\nTimestamp: " + timestamp + "\nValue: " + value + "\nUnit: " + unit + "\nSource: " + (imported == true ? "imported" : "generated") + (sensor != null ? "\nSensor: " + sensor : null); 
