@@ -135,19 +135,20 @@ namespace Meterology
         {
             string temp;
             Console.WriteLine("Analysing data...\nMaking statistics of minimum, maximum, average, size(number of data):\nDo you want day by day statistic?");
+            bool dayly = false;
             while (true) {
                 temp = Console.ReadLine();
                 if (temp == "yes" || temp == "y")
                 {
-
+                    dayly = true;
                 }
                 else if (temp == "no" || temp == "n")
                 {
-
+                    dayly = false;
                 }
                 else if (temp == "back")
                 {
-                    break;
+                    return;
                 }
                 else if (temp == "help")
                 {
@@ -158,6 +159,23 @@ namespace Meterology
                     Console.WriteLine("Invalid Command!");
                 }
             }
+            var normalizedlist = list.Select(x => UnitConverter.Normalize(x)).ToList();
+
+            var categorylist = normalizedlist.GroupBy(x => x.category);
+
+            foreach(var group in categorylist)
+            {
+                string category = group.Key;
+                string baseUnit = group.First().baseunit;
+
+                double min = group.Min(x => x.value);
+                double max = group.Max(x => x.value);
+                double avarege = group.Average(x => x.value);
+                double count = group.Count();
+
+                Console.WriteLine($"Category: {category}, Unit: {baseUnit}\nMinimum: {min}\nMaximum: {max}\nAvarege: {avarege}\n Count: {count}");
+            }
+
         }
 
         public List<Data> generate(DateTime[] time, int num, double[] range)

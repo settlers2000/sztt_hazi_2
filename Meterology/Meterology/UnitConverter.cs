@@ -77,5 +77,41 @@ namespace Meterology
             }
             Console.WriteLine("Converted default unit!");
         }
+
+        public class NormalizedData()
+        {
+            public double value { get; set; }
+            public string baseunit { get; set; }
+            public string category { get; set; }
+            public DateTime timestamp { get; set; }
+        }
+        public static NormalizedData Normalize(Data data)
+        {
+            //A kulcs a unit.
+            var key = data.unit;
+
+            //Ha van ilyen kulcs.
+            if (map.ContainsKey(key))
+            {
+                var value = map[key];
+                return new NormalizedData
+                {
+                    value = value.toBase(data.value),
+                    baseunit = value.baseunit,
+                    category = value.category,
+                    timestamp = data.timestamp
+                };
+            }
+            else
+            {
+                return new NormalizedData
+                {
+                    value = data.value,
+                    baseunit = data.unit,
+                    category = "unknown",
+                    timestamp = data.timestamp
+                };
+            }
+        }
     }
 }
