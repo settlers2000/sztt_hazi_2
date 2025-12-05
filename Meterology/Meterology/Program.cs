@@ -19,12 +19,11 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
         {
             Console.WriteLine("Input username:");
             string username = Console.ReadLine();
-            if(administration.changeUser(user, users, username))
+            if(administration.changeUser(ref user, users, username))
             {
                 break;
             }
         }
-        Console.WriteLine("Welcome " + user.name + "!");
 
 
         while ((command = Console.ReadLine().ToLower()) != "logout")
@@ -60,9 +59,8 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
                         {
                             Console.WriteLine("Input username:");
                             string username = Console.ReadLine();
-                            if (administration.changeUser(user, users, username))
+                            if (administration.changeUser(ref user, users, username))
                             {
-                                Console.WriteLine("Welcome " + user.name + "!");
                                 break;
                             }
                         }
@@ -70,9 +68,8 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
                         {
                             Console.WriteLine("Input password:");
                             string password = Console.ReadLine();
-                            if(administration.makeAdmin(user, users, password))
+                            if(administration.makeAdmin(ref user, users, password))
                             {
-                                Console.WriteLine($"User {user.name} is admin!");
                                 break;
                             }
                         }

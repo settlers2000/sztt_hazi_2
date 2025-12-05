@@ -8,13 +8,13 @@ namespace Meterology
 {
     internal interface IAdministration
     {
-        public bool changeUser(User user, List<User> users, string name);
-        public bool makeAdmin(User user, List<User> users, string name);
+        public bool changeUser(ref User user, List<User> users, string name);
+        public bool makeAdmin(ref User user, List<User> users, string name);
     }
 
     public class Simpleadmin : IAdministration
     {
-        public bool changeUser(User user, List<User> users, string name)
+        public bool changeUser(ref User user, List<User> users, string name)
         {
             if (!(string.IsNullOrEmpty(name)))
             {
@@ -33,7 +33,7 @@ namespace Meterology
             return false;
         }
 
-        public bool makeAdmin(User user, List<User> users, string password)
+        public bool makeAdmin(ref User user, List<User> users, string password)
         {
             if (password == "admin123")
             {
