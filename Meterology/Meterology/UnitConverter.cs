@@ -113,5 +113,9 @@ namespace Meterology
                 };
             }
         }
+        public static List<string> getElements()
+        {
+            return map.Keys.ToList();
+        }
     }
 }

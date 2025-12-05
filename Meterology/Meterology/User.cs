@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -128,10 +129,37 @@ namespace Meterology
         {
             if(list != null) 
             {
+                int counter = 0;
                 foreach (var data in list)
                 {
                     Console.WriteLine(data);
+                    counter++;
+
+                    if(counter % 5 == 0)
+                    {
+                        Console.WriteLine("Press enter to continue, q to exit.");
+                        while(true)
+                        {
+                            var command = Console.ReadLine();
+                            if (string.IsNullOrEmpty(command))
+                            {
+                                break;
+                            }
+                            else if (command == "q")
+                            {
+                                return;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid command!");
+                            }
+                        }
+                    }
                 }
+            }
+            else
+            {
+                Console.WriteLine("List is empty!");
             }
         }
 
@@ -170,6 +198,7 @@ namespace Meterology
             if (dayly)
             {
                 var daylist = normalizedlist.GroupBy(x => x.timestamp.Date);
+                int counter = 0;
 
                 foreach (var group in daylist)
                 {
@@ -186,8 +215,28 @@ namespace Meterology
                         double avarege = group2.Average(x => x.value);
                         double count = group2.Count();
 
-                        Console.WriteLine($"Category: , Unit: {baseUnit}\nMinimum: {min}\nMaximum: {max}\nAvarege: {avarege}\n Count: {count}");
-
+                        Console.WriteLine($"Category: {category}, Unit: {baseUnit}\nMinimum: {min}\nMaximum: {max}\nAvarege: {avarege}\nCount: {count}");
+                        counter++;
+                        if (counter % 5 == 0)
+                        {
+                            Console.WriteLine("Press enter to continue, q to exit.");
+                            while (true)
+                            {
+                                var command = Console.ReadLine();
+                                if (string.IsNullOrEmpty(command))
+                                {
+                                    break;
+                                }
+                                else if (command == "q")
+                                {
+                                    return;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Invalid command!");
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -204,7 +253,7 @@ namespace Meterology
                     double avarege = group.Average(x => x.value);
                     double count = group.Count();
 
-                    Console.WriteLine($"Category: {category}, Unit: {baseUnit}\nMinimum: {min}\nMaximum: {max}\nAvarege: {avarege}\n Count: {count}");
+                    Console.WriteLine($"Category: {category}, Unit: {baseUnit}\nMinimum: {min}\nMaximum: {max}\nAvarege: {avarege}\nCount: {count}");
                 }
             }
         }
@@ -219,7 +268,8 @@ namespace Meterology
                 TimeSpan newspan = new TimeSpan(0, rand.Next(0, (int)timespan.TotalMinutes), 0);
                 var timestamp = time[0] + newspan;
                 var value = rand.NextDouble() * (range[1] - range[0]) + range[0];
-                var unit = "idk yet but im dead";
+                var units = UnitConverter.getElements();
+                var unit = units[rand.Next(units.Count())];
                 var source = false;
 
                 Data data = new Data(timestamp, value, unit, source, null);
@@ -257,9 +307,39 @@ namespace Meterology
                 filter = filter.Where(data => (data.unit == unit)).ToList();
             }
 
-            foreach (var data in filter)
+            if (filter != null)
             {
-                Console.WriteLine(data);
+                int counter = 0;
+                foreach (var data in filter)
+                {
+                    Console.WriteLine(data);
+                    counter++;
+
+                    if (counter % 5 == 0)
+                    {
+                        Console.WriteLine("Press enter to continue, q to exit.");
+                        while (true)
+                        {
+                            var command = Console.ReadLine();
+                            if (string.IsNullOrEmpty(command))
+                            {
+                                break;
+                            }
+                            else if (command == "q")
+                            {
+                                return;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Invalid command!");
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("List is empty!");
             }
         }
     }
