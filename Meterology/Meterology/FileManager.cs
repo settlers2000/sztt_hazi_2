@@ -26,7 +26,7 @@ namespace Meterology
                         var source = node.Element("Source").Value;
                         var sensor = node.Element("Sensor")?.Value;
 
-                        Data data = new Data(timestamp, value, unit, source == "imported" ? true : false, sensor);
+                        Data data = new Data(timestamp, value, unit, source == "imported" || source == "import" ? true : false, sensor);
                         list.Add(data);
                         numberOfDataLoaded++;
                     }

@@ -62,6 +62,10 @@ namespace Meterology
                     {
                         Console.WriteLine("Wrong format used!");
                     }
+                    catch (System.IndexOutOfRangeException e)
+                    {
+                        Console.WriteLine("Wrong format used!");
+                    }
                     break;
                 }
                 else if (input == "help")
@@ -141,10 +145,12 @@ namespace Meterology
                 if (temp == "yes" || temp == "y")
                 {
                     dayly = true;
+                    break;
                 }
                 else if (temp == "no" || temp == "n")
                 {
                     dayly = false;
+                    break;
                 }
                 else if (temp == "back")
                 {
@@ -161,21 +167,46 @@ namespace Meterology
             }
             var normalizedlist = list.Select(x => UnitConverter.Normalize(x)).ToList();
 
-            var categorylist = normalizedlist.GroupBy(x => x.category);
-
-            foreach(var group in categorylist)
+            if (dayly)
             {
-                string category = group.Key;
-                string baseUnit = group.First().baseunit;
+                var daylist = normalizedlist.GroupBy(x => x.timestamp.Date);
 
-                double min = group.Min(x => x.value);
-                double max = group.Max(x => x.value);
-                double avarege = group.Average(x => x.value);
-                double count = group.Count();
+                foreach (var group in daylist)
+                {
+                    Console.WriteLine($"Day: {group.Key}");
 
-                Console.WriteLine($"Category: {category}, Unit: {baseUnit}\nMinimum: {min}\nMaximum: {max}\nAvarege: {avarege}\n Count: {count}");
+                    var categorylist = group.GroupBy(x => x.category);
+                    foreach (var group2 in categorylist)
+                    {
+                        string category = group2.Key;
+                        string baseUnit = group2.First().baseunit;
+
+                        double min = group2.Min(x => x.value);
+                        double max = group2.Max(x => x.value);
+                        double avarege = group2.Average(x => x.value);
+                        double count = group2.Count();
+
+                        Console.WriteLine($"Category: , Unit: {baseUnit}\nMinimum: {min}\nMaximum: {max}\nAvarege: {avarege}\n Count: {count}");
+
+                    }
+                }
             }
+            else {
+               var categorylist = normalizedlist.GroupBy(x => x.category);
 
+                foreach (var group in categorylist)
+                {
+                    string category = group.Key;
+                    string baseUnit = group.First().baseunit;
+
+                    double min = group.Min(x => x.value);
+                    double max = group.Max(x => x.value);
+                    double avarege = group.Average(x => x.value);
+                    double count = group.Count();
+
+                    Console.WriteLine($"Category: {category}, Unit: {baseUnit}\nMinimum: {min}\nMaximum: {max}\nAvarege: {avarege}\n Count: {count}");
+                }
+            }
         }
 
         public List<Data> generate(DateTime[] time, int num, double[] range)
