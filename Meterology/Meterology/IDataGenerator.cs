@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Meterology
 {
-    internal interface IDataGenerator
+    public interface IDataGenerator
     {
         List<Data> generate(DateTime[] time, int num, double[] range);
     }

@@ -45,5 +45,37 @@ namespace MeterologyTest
             StringAssert.Contains(output, "Wrong format error!\nSuccessfully loaded data: 3\nFailed data: 1");
             
         }
+
+        [TestMethod]
+        public void DataGenerationTest()
+        {
+            IDataGenerator generator = new RandomGenerator();
+
+            DateTime[] time = { DateTime.Now, DateTime.Now.AddDays(3) };
+            int num = 50;
+            double[] range = { 2.3, 100.4 };
+
+            var list = generator.generate(time, num, range);
+
+            Assert.IsNotNull(list);
+            Assert.AreEqual(50, list.Count, "Should generate exactly 50 items");
+
+            foreach (var data in list)
+            {
+                Assert.IsTrue(data.value >= range[0], $"Value {data.value} is below minimum {range[0]}");
+                Assert.IsTrue(data.value <= range[1], $"Value {data.value} is above maximum {range[1]}");
+
+                Assert.IsTrue(data.timestamp >= time[0], $"Time {data.timestamp} is before start");
+                Assert.IsTrue(data.timestamp <= time[1], $"Time {data.timestamp} is after end");
+
+                Assert.IsFalse(data.imported, "Generated data should have imported = false");
+                Assert.IsNull(data.sensor, "Sensor should be null for generated data");
+            }
+
+            list = generator.generate(time, 0, range);
+
+            Assert.IsNotNull(list);
+            Assert.AreEqual(0, list.Count, "Should return empty list");
+        }
     }
 }
