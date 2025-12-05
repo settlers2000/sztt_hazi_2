@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace MeterologyTest
 {
     [TestClass]
-    public class UnitTest1
+    public class InterfaceTests
     {
         [TestMethod]
         public void ReadFileTest()
@@ -139,6 +139,69 @@ namespace MeterologyTest
             Assert.IsInstanceOfType(user, typeof(User), "Should still be a normal User");
             Assert.IsNotInstanceOfType(user, typeof(Admin), "Should NOT be an Admin");
             Assert.IsInstanceOfType(users[1], typeof(User), "The user inside the list should be a User");
+        }
+
+        [TestMethod]
+        public void AdminOnly()
+        {
+            
+        }
+    }
+
+    [TestClass]
+    public class AdminPrivilageTest
+    {
+        private List<Data> list;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            IFileManager manager = new XmlManager();
+            list = manager.importFromFile("DataUnitTest.xml");
+        }
+
+        [TestMethod]
+        public void DeleteAllDataTest()
+        {
+            Assert.AreEqual(40, list.Count, "List should have 40 data before Admin deletes all");
+
+            Admin admin1 = new Admin("Admin");
+
+            admin1.deleteAll(list);
+
+            Assert.AreEqual(0, list.Count, "List should be empty after Admin deletes all");
+        }
+
+        [TestMethod]
+        public void ChangeUnitTest()
+        {
+            Assert.AreEqual(40, list.Count, "List should have 40 data");
+
+            var tempitem1 = list[0];
+            var tempitem2 = list[2];
+
+            Admin admin1 = new Admin("Admin");
+
+            string simulatedInput = "°f\n";
+            Console.SetIn(new StringReader(simulatedInput));
+
+
+            admin1.changeUnit(list);
+
+            StringWriter sw = new StringWriter();
+            Console.SetOut(sw);
+
+            Assert.AreEqual("°f", tempitem1.unit);
+            Assert.AreEqual(37.76, tempitem1.value, 0.01, "3.2°C should become approx 37.76°F");
+
+            Assert.AreEqual("hPa", tempitem2.unit);
+            Assert.AreEqual(1013.2, tempitem2.value, "Pressure should not change when converting temp");
+
+            int count = list.Count(x => x.unit == "°f" || x.unit == "°F");
+            Assert.AreEqual(13, count, "All 13 temperature items should now be Fahrenheit");
+
+            // Clean up console
+            sw.Dispose();
         }
     }
 }
