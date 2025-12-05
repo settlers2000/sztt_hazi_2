@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Meterology
 {
-    internal class Admin : User
+    public class Admin : User
     {
         public Admin(string name) : base(name)
         {

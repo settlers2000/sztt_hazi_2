@@ -77,5 +77,68 @@ namespace MeterologyTest
             Assert.IsNotNull(list);
             Assert.AreEqual(0, list.Count, "Should return empty list");
         }
+
+        [TestMethod]
+        public void ChangeUserTest()
+        {
+            IAdministration admin = new Simpleadmin();
+            User user = null;
+            var users = new List<User>();
+            bool userchanged;
+
+            userchanged = admin.changeUser(ref user, users, "user1");
+
+            Assert.IsTrue(userchanged, "Should return true for valid new name");
+            Assert.IsNotNull(user, "User reference should be updated");
+            Assert.AreEqual(user.name, "user1");
+            Assert.AreEqual(1, users.Count(), "List should now contain 1 user");
+
+            userchanged = admin.changeUser(ref user, users, "user2");
+
+            Assert.IsTrue(userchanged, "Should return true for valid new name");
+            Assert.IsNotNull(user, "User reference should be updated");
+            Assert.AreEqual(user.name, "user2");
+            Assert.AreEqual(2, users.Count(), "List should now contain 2 user");
+
+            userchanged = admin.changeUser(ref user, users, "user1");
+
+            Assert.IsTrue(userchanged, "Should return true for valid new name");
+            Assert.IsNotNull(user, "User reference should be updated");
+            Assert.AreEqual(user.name, "user1");
+            Assert.AreEqual(2, users.Count(), "List should now contain 2 user");
+
+            userchanged = admin.changeUser(ref user, users, "");
+            Assert.IsFalse(userchanged, "Should return false for not valid new name");
+            Assert.AreEqual(user.name, "user1");
+            Assert.AreEqual(2, users.Count(), "List should now contain 2 user");
+        }
+
+        [TestMethod]
+        public void ToAdmin()
+        {
+            IAdministration admin = new Simpleadmin();
+            User user = null;
+            var users = new List<User>();
+            bool userchanged;
+
+            userchanged = admin.changeUser(ref user, users, "user1");
+
+            userchanged = admin.makeAdmin(ref user, users, "admin123");
+
+            Assert.IsTrue(userchanged, "Should return true for correct password");
+
+            Assert.IsInstanceOfType(user, typeof(Admin), "User variable should now hold an Admin object");
+
+            Assert.AreEqual(1, users.Count);
+            Assert.IsInstanceOfType(users[0], typeof(Admin), "The user inside the list should also be an Admin");
+
+            userchanged = admin.changeUser(ref user, users, "user2");
+
+            userchanged = admin.makeAdmin(ref user, users, "wrong");
+            Assert.IsFalse(userchanged, "Should return false for wrong password");
+            Assert.IsInstanceOfType(user, typeof(User), "Should still be a normal User");
+            Assert.IsNotInstanceOfType(user, typeof(Admin), "Should NOT be an Admin");
+            Assert.IsInstanceOfType(users[1], typeof(User), "The user inside the list should be a User");
+        }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Meterology
 {
-    internal interface IAdministration
+    public interface IAdministration
     {
         public bool changeUser(ref User user, List<User> users, string name);
         public bool makeAdmin(ref User user, List<User> users, string name);
