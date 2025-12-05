@@ -4,8 +4,8 @@ using System.Runtime.CompilerServices;
 
 List<Data> list = new List<Data>();
 List<User> users = new List<User>();
-User user;
-
+User user = null;
+IAdministration administration = new Simpleadmin();
 
 
 Console.WriteLine("Meterology Database");
@@ -19,20 +19,10 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
         {
             Console.WriteLine("Input username:");
             string username = Console.ReadLine();
-            if (!(string.IsNullOrEmpty(username)))
+            if(administration.changeUser(user, users, username))
             {
-                if (users.Find(x => x.name == username) == null)
-                {
-                    user = new User(username);
-                    users.Add(user);
-                }
-                else
-                {
-                    user = users.Find(x => x.name == username);
-                }
                 break;
             }
-            else { Console.WriteLine("Invalid Command!"); }
         }
         Console.WriteLine("Welcome " + user.name + "!");
 
@@ -70,17 +60,8 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
                         {
                             Console.WriteLine("Input username:");
                             string username = Console.ReadLine();
-                            if (!(string.IsNullOrEmpty(username)))
+                            if (administration.changeUser(user, users, username))
                             {
-                                if (users.Find(x => x.name == username) == null)
-                                {
-                                    user = new User(username);
-                                    users.Add(user);
-                                }
-                                else
-                                {
-                                    user = users.Find(x => x.name == username);
-                                }
                                 Console.WriteLine("Welcome " + user.name + "!");
                                 break;
                             }
@@ -89,16 +70,10 @@ while ((command = Console.ReadLine().ToLower()) != "exit")
                         {
                             Console.WriteLine("Input password:");
                             string password = Console.ReadLine();
-                            if(password == "admin123")
+                            if(administration.makeAdmin(user, users, password))
                             {
-                                string temp = user.name;
-                                users.Remove(users.Find(x => x.name == user.name));
-                                user = new Admin(temp);
-                                users.Add(user);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Incorrect password!");
+                                Console.WriteLine($"User {user.name} is admin!");
+                                break;
                             }
                         }
                         else if (command2 == "back")

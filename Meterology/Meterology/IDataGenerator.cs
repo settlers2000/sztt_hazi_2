@@ -8,7 +8,7 @@ namespace Meterology
 {
     internal interface IDataGenerator
     {
-        List<string> generate();
+        List<Data> generate(DateTime[] time, int num, double[] range);
     }
 
     public class RandomGenerator : IDataGenerator

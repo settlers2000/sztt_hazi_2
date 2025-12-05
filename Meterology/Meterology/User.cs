@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Meterology
 {
-    internal class User
+    public class User
     {
         private string _name;
         public string name
@@ -169,7 +169,8 @@ namespace Meterology
             string temp;
             Console.WriteLine("Analysing data...\nMaking statistics of minimum, maximum, average, size(number of data):\nDo you want day by day statistic?");
             bool dayly = false;
-            while (true) {
+            while (true)
+            {
                 temp = Console.ReadLine();
                 if (temp == "yes" || temp == "y")
                 {
@@ -194,69 +195,8 @@ namespace Meterology
                     Console.WriteLine("Invalid Command!");
                 }
             }
-            var normalizedlist = list.Select(x => UnitConverter.Normalize(x)).ToList();
-
-            if (dayly)
-            {
-                var daylist = normalizedlist.GroupBy(x => x.timestamp.Date);
-                int counter = 0;
-
-                foreach (var group in daylist)
-                {
-                    Console.WriteLine($"Day: {group.Key}");
-
-                    var categorylist = group.GroupBy(x => x.category);
-                    foreach (var group2 in categorylist)
-                    {
-                        string category = group2.Key;
-                        string baseUnit = group2.First().baseunit;
-
-                        double min = group2.Min(x => x.value);
-                        double max = group2.Max(x => x.value);
-                        double avarege = group2.Average(x => x.value);
-                        double count = group2.Count();
-
-                        Console.WriteLine($"Category: {category}, Unit: {baseUnit}\nMinimum: {min}\nMaximum: {max}\nAvarege: {avarege}\nCount: {count}");
-                        counter++;
-                        if (counter % 5 == 0)
-                        {
-                            Console.WriteLine("Press enter to continue, q to exit.");
-                            while (true)
-                            {
-                                var command = Console.ReadLine();
-                                if (string.IsNullOrEmpty(command))
-                                {
-                                    break;
-                                }
-                                else if (command == "q")
-                                {
-                                    return;
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Invalid command!");
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else {
-               var categorylist = normalizedlist.GroupBy(x => x.category);
-
-                foreach (var group in categorylist)
-                {
-                    string category = group.Key;
-                    string baseUnit = group.First().baseunit;
-
-                    double min = group.Min(x => x.value);
-                    double max = group.Max(x => x.value);
-                    double avarege = group.Average(x => x.value);
-                    double count = group.Count();
-
-                    Console.WriteLine($"Category: {category}, Unit: {baseUnit}\nMinimum: {min}\nMaximum: {max}\nAvarege: {avarege}\nCount: {count}");
-                }
-            }
+            IStatistics statistics = new Statistic();
+            statistics.statistics(dayly, list);
         }
 
         public void filter(List<Data> list, DateTime[] time, double min, double max, string unit)

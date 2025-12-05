@@ -3,9 +3,13 @@ using System.Xml.Linq;
 
 namespace Meterology
 {
-    internal class FileManager
+    public interface IFileManager
     {
+        public List<Data> importFromFile(string file);
+    }
 
+    public class XmlManager : IFileManager
+    {
         public List<Data> importFromFile(string file)
         {
             List<Data> list = new List<Data>();
@@ -13,7 +17,7 @@ namespace Meterology
             try
             {
                 XDocument database = XDocument.Load(file);
-                if (database == null ) { throw new FileLoadException(); }
+                if (database == null) { throw new FileLoadException(); }
 
                 foreach (var node in database.Root.Elements("Data"))
                 {
@@ -34,7 +38,7 @@ namespace Meterology
                     {
                         numberOfDataLost++;
                         continue;
-                    }                
+                    }
                 }
 
                 list.Sort(delegate (Data x, Data y)
@@ -42,21 +46,21 @@ namespace Meterology
                     return x.timestamp.CompareTo(y.timestamp);
                 });
 
-                if(numberOfDataLost > 0)
+                if (numberOfDataLost > 0)
                 {
                     Console.WriteLine("Wrong format error!\nSuccessfully loaded data: " + numberOfDataLoaded + "\nFailed data: " + numberOfDataLost);
                 }
                 else { Console.WriteLine("Imported successfully!"); }
             }
-            catch(FileNotFoundException e)
+            catch (FileNotFoundException e)
             {
                 Console.WriteLine("File not found!");
             }
-            catch(FileLoadException e)
+            catch (FileLoadException e)
             {
                 Console.WriteLine("File is empty!");
             }
-            catch(System.Xml.XmlException e)
+            catch (System.Xml.XmlException e)
             {
                 Console.WriteLine("File is empty!");
             }

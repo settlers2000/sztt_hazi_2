@@ -27,7 +27,6 @@ namespace Meterology
                 if(!string.IsNullOrEmpty(unit)) 
                 {
                     UnitConverter.changeDefaultUnit(list, unit);
-                    Console.WriteLine($"The new default unit is {unit}!");
                 }
                 else
                 {
