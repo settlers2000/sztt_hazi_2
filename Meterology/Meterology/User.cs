@@ -30,7 +30,7 @@ namespace Meterology
         public List<Data> loadData()
         {
             List<Data> list = new List<Data>();
-            FileManager fileManager = new FileManager();
+            IFileManager fileManager = new XmlManager();
             Console.WriteLine("Do you want to import or generate data?");
             while (true)
             {
@@ -57,7 +57,8 @@ namespace Meterology
                         temp = Console.ReadLine();
                         token = temp.Split(",");
                         double[] range = { double.Parse(token[0]), double.Parse(token[1]) };
-                        list = generate(time, num, range);
+                        IDataGenerator generator = new RandomGenerator();
+                        list = generator.generate(time, num, range);
                     }
                     catch(System.FormatException e)
                     {
@@ -256,27 +257,6 @@ namespace Meterology
                     Console.WriteLine($"Category: {category}, Unit: {baseUnit}\nMinimum: {min}\nMaximum: {max}\nAvarege: {avarege}\nCount: {count}");
                 }
             }
-        }
-
-        public List<Data> generate(DateTime[] time, int num, double[] range)
-        {
-            List<Data> list = new List<Data>();
-            Random rand = new Random();
-            for (int i = 0; i < num; i++)
-            {
-                TimeSpan timespan = time[1] - time[0];
-                TimeSpan newspan = new TimeSpan(0, rand.Next(0, (int)timespan.TotalMinutes), 0);
-                var timestamp = time[0] + newspan;
-                var value = rand.NextDouble() * (range[1] - range[0]) + range[0];
-                var units = UnitConverter.getElements();
-                var unit = units[rand.Next(units.Count())];
-                var source = false;
-
-                Data data = new Data(timestamp, value, unit, source, null);
-                list.Add(data);
-            }
-            Console.WriteLine("Generated successfully!");
-            return list;
         }
 
         public void filter(List<Data> list, DateTime[] time, double min, double max, string unit)

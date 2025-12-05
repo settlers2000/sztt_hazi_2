@@ -75,7 +75,7 @@ namespace Meterology
                     }
                 }
             }
-            Console.WriteLine("Converted default unit!");
+            Console.WriteLine($"The new default unit is {unit}!");
         }
 
         public class NormalizedData()
