@@ -38,7 +38,7 @@ namespace Meterology
             if (password == "admin123")
             {
                 string temp = user.name;
-                users.Remove(users.Find(x => x.name == user.name));
+                users.Remove(user);
                 user = new Admin(temp);
                 users.Add(user);
                 Console.WriteLine($"User {user.name} is admin!");
