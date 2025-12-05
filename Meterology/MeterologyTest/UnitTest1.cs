@@ -1,4 +1,6 @@
 using Meterology;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Runtime.InteropServices;
 
 namespace MeterologyTest
 {
@@ -12,7 +14,7 @@ namespace MeterologyTest
             var list = manager.importFromFile("DataTest.xml");
 
             Assert.IsNotNull(list);
-            Assert.AreEqual(4, list.Count(), "Load exectly 4 items");
+            Assert.AreEqual(4, list.Count(), "Should load exectly 4 items");
 
             Assert.AreEqual(3.2, list[0].value);
             Assert.AreEqual("°c", list[0].unit);
@@ -23,6 +25,25 @@ namespace MeterologyTest
             Assert.AreEqual(4.1, list[1].value);
             Assert.AreEqual(DateTime.Parse("2025-01-01T10:00:00"), list[2].timestamp);
             Assert.AreEqual("hpa", list[3].unit);
+
+            StringWriter stringwrite = new StringWriter();
+            Console.SetOut(stringwrite);
+
+            list = manager.importFromFile("Nosuchfile");
+
+            string output = stringwrite.ToString();
+            StringAssert.Contains(output, "File not found!");
+            stringwrite.GetStringBuilder().Clear();
+
+
+            list = manager.importFromFile("DataWrong.xml");
+
+            Assert.IsNotNull(list);
+            Assert.AreEqual(3, list.Count(), "Should load 3 items, one failed");
+
+            output = stringwrite.ToString();
+            StringAssert.Contains(output, "Wrong format error!\nSuccessfully loaded data: 3\nFailed data: 1");
+            
         }
     }
 }
