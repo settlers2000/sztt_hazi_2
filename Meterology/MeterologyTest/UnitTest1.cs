@@ -76,6 +76,19 @@ namespace MeterologyTest
 
             Assert.IsNotNull(list);
             Assert.AreEqual(0, list.Count, "Should return empty list");
+
+            list = generator.generate(time, -10, range);
+            Assert.IsNotNull(list);
+            Assert.AreEqual(0, list.Count, "Negative count should result in empty list");
+
+            try
+            {
+                generator.generate(time, 5, null);
+            }
+            catch (NullReferenceException)
+            {
+                Assert.IsTrue(true);
+            }
         }
 
         [TestMethod]
@@ -84,6 +97,7 @@ namespace MeterologyTest
             IAdministration admin = new Simpleadmin();
             User user = null;
             var users = new List<User>();
+            List<User> users2 = null;
             bool userchanged;
 
             userchanged = admin.changeUser(ref user, users, "user1");
@@ -111,6 +125,15 @@ namespace MeterologyTest
             Assert.IsFalse(userchanged, "Should return false for not valid new name");
             Assert.AreEqual(user.name, "user1");
             Assert.AreEqual(2, users.Count(), "List should now contain 2 user");
+
+            try
+            {
+                bool result = admin.changeUser(ref user, users, "user");
+            }
+            catch (NullReferenceException)
+            {
+                Console.WriteLine("Shouldnt crash on null list");
+            }
         }
 
         [TestMethod]
@@ -140,6 +163,31 @@ namespace MeterologyTest
             Assert.IsNotInstanceOfType(user, typeof(Admin), "Should NOT be an Admin");
             Assert.IsInstanceOfType(users[1], typeof(User), "The user inside the list should be a User");
         }
+
+        [TestMethod]
+        public void StatisticsExceptionTest()
+        {
+            var list = new List<Data>();
+            IStatistics statistics = new Statistic();
+
+            StringWriter sw = new StringWriter();
+            Console.SetOut(sw);
+
+            try
+            {
+                statistics.statistics(false, list);
+
+                Assert.IsTrue(true);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Failed beacuse of empty list: {ex.Message}");
+            }
+            finally
+            {
+                sw.Dispose();
+            }
+        }
     }
 
     [TestClass]
@@ -164,6 +212,15 @@ namespace MeterologyTest
             admin1.deleteAll(list);
 
             Assert.AreEqual(0, list.Count, "List should be empty after Admin deletes all");
+
+            try
+            {
+                admin1.deleteAll(null);
+            }
+            catch(Exception e)
+            {
+                Assert.Fail($"DeleteAll crashed on null list: {e.Message}");
+            }
         }
 
         [TestMethod]
@@ -193,8 +250,25 @@ namespace MeterologyTest
 
             int count = list.Count(x => x.unit == "°f" || x.unit == "°F");
             Assert.AreEqual(13, count, "All 13 temperature items should now be Fahrenheit");
+            sw.GetStringBuilder().Clear();
 
-            // Clean up console
+            simulatedInput = "wrong\n";
+            Console.SetIn(new StringReader(simulatedInput));
+            admin1.changeUnit(list);
+            Console.SetOut(sw);
+
+            Assert.AreEqual(1013.2, list[2].value, "Value should not change on error");
+            Assert.AreEqual("hPa", list[2].unit, "Unit should not change on error");
+
+            try
+            {
+                admin1.changeUnit(null);
+            }
+            catch (Exception e)
+            {
+                Assert.Fail($"ChangeUnit crashed on null list: {e.Message}");
+            }
+
             sw.Dispose();
         }
     }
@@ -409,6 +483,34 @@ namespace MeterologyTest
             Assert.IsFalse(output.Contains("Unit: m"), "Wrong unit shouldnt show.");
             StringAssert.Contains(output, "Unit: bar", "Right unit should show.");
             
+            sw.Dispose();
+        }
+
+        [TestMethod]
+        public void NullTest()
+        {
+            StringWriter sw = new StringWriter();
+            Console.SetOut(sw);
+
+            user.filter(null, null, null, null, null);
+
+            string output = sw.ToString();
+
+            StringAssert.Contains(output, "List is empty!", "Should handle null list safely");
+
+            sw.GetStringBuilder().Clear();
+
+            try
+            {
+                user.filter(list, null, null, null, null);
+                output = sw.ToString();
+
+                Assert.IsTrue(output.Contains("Value"), "Should list everything");
+            }
+            catch (NullReferenceException)
+            {
+                Assert.Fail("Filter crashed");
+            }
             sw.Dispose();
         }
     }

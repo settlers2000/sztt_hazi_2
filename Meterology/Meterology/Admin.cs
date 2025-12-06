@@ -14,8 +14,15 @@ namespace Meterology
 
         public void deleteAll(List<Data> list)
         {
-            list.Clear();
-            Console.WriteLine("All data has been deleted!");
+            if (list != null && list.Count > 0)
+            {
+                list.Clear();
+                Console.WriteLine("All data has been deleted!");
+            }
+            else
+            {
+                Console.WriteLine("List was empty!");
+            }
         }
 
         public void changeUnit(List<Data> list)
