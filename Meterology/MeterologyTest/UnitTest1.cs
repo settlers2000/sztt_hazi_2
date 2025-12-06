@@ -19,8 +19,8 @@ namespace MeterologyTest
             Assert.AreEqual(3.2, list[0].value);
             Assert.AreEqual("°c", list[0].unit);
             Assert.AreEqual("north_sensor", list[0].sensor);
-            Assert.AreEqual(true , list[0].imported);
-            Assert.AreEqual(DateTime.Parse("2025-01-01T08:00:00") , list[0].timestamp);
+            Assert.AreEqual(true, list[0].imported);
+            Assert.AreEqual(DateTime.Parse("2025-01-01T08:00:00"), list[0].timestamp);
 
             Assert.AreEqual(4.1, list[1].value);
             Assert.AreEqual(DateTime.Parse("2025-01-01T10:00:00"), list[2].timestamp);
@@ -43,7 +43,7 @@ namespace MeterologyTest
 
             output = stringwrite.ToString();
             StringAssert.Contains(output, "Wrong format error!\nSuccessfully loaded data: 3\nFailed data: 1");
-            
+
         }
 
         [TestMethod]
@@ -140,12 +140,6 @@ namespace MeterologyTest
             Assert.IsNotInstanceOfType(user, typeof(Admin), "Should NOT be an Admin");
             Assert.IsInstanceOfType(users[1], typeof(User), "The user inside the list should be a User");
         }
-
-        [TestMethod]
-        public void AdminOnly()
-        {
-            
-        }
     }
 
     [TestClass]
@@ -201,6 +195,112 @@ namespace MeterologyTest
             Assert.AreEqual(13, count, "All 13 temperature items should now be Fahrenheit");
 
             // Clean up console
+            sw.Dispose();
+        }
+    }
+
+    [TestClass]
+    public class FilterTests
+    {
+        List<Data> list;
+        User user;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            user = new User("user1");
+            list = new List<Data>
+            {
+                new Data(DateTime.Parse("2025-01-01T08:00:00"), 5.0, "m", true, "sensor1"),
+                new Data(DateTime.Parse("2025-01-01T12:00:00"), 50.0, "m", true, "sensor2"),
+                new Data(DateTime.Parse("2025-01-01T12:00:00"), 5.0, "m", true, "sensor3"),
+                new Data(DateTime.Parse("2025-01-02T08:00:00"), 15.0, "m", true, "ssensor4")
+            };
+        }
+
+        [TestMethod]
+        public void DateTimeFilter()
+        {
+            DateTime[] time1 = {
+                DateTime.Parse("2025-01-01T10:00:00"),
+                DateTime.Parse("2025-01-01T14:00:00")
+            };
+
+            DateTime[] time2 = {
+                DateTime.Parse("2025-01-01T10:00:00"),
+                default
+            };
+
+            DateTime[] time3 = {
+                default,
+                DateTime.Parse("2025-01-01T14:00:00")
+            };
+
+            StringWriter sw = new StringWriter();
+            Console.SetOut(sw);
+
+            user.filter(list, time1, null, null, null);
+
+            string output = sw.ToString();
+
+            Assert.IsFalse(output.Contains("Timestamp: 01/01/2025 08:00:00"), "Wrong time shouldnt show.");
+            Assert.IsFalse(output.Contains("Timestamp: 02/01/2025"), "Wrong time shouldnt show.");
+            sw.GetStringBuilder().Clear();
+
+            user.filter(list, time2, null, null, null);
+
+            output = sw.ToString();
+
+            Assert.IsFalse(output.Contains("Timestamp: 01/01/2025 08:00:00"), "Wrong time shouldnt show.");
+            StringAssert.Contains(output, "Timestamp: 02/01/2025 08:00:00", "Right time should show.");
+            sw.GetStringBuilder().Clear();
+
+            user.filter(list, time3, null, null, null);
+
+            output = sw.ToString();
+
+            Assert.IsFalse(output.Contains("Timestamp: 02/01/2025"), "Wrong time shouldnt show.");
+            Assert.IsTrue(output.Contains("Timestamp: 01/01/2025 08:00:00"), "Right time should show.");
+
+            sw.Dispose();
+        }
+
+        [TestMethod]
+        public void ValueFilter()
+        {
+            DateTime[] time = {
+                default,
+                default
+            };
+
+            StringWriter sw = new StringWriter();
+            Console.SetOut(sw);
+
+            user.filter(list, time, 20, null, null);
+
+            string output = sw.ToString();
+
+            Assert.IsFalse(output.Contains("Value : 5"), "Wrong value shouldnt show.");
+            Assert.IsFalse(output.Contains("Value : 15"), "Wrong value shouldnt show.");
+            sw.GetStringBuilder().Clear();
+
+            user.filter(list, time, null, 20, null);
+
+            output = sw.ToString();
+
+            Assert.IsFalse(output.Contains("Value: 50"), "Wrong value shouldnt show.");
+            StringAssert.Contains(output, "Value: 5", "Right value should show.");
+            StringAssert.Contains(output, "Value: 15", "Right value should show.");
+            sw.GetStringBuilder().Clear();
+
+            user.filter(list, time, 10, 20, null);
+
+            output = sw.ToString();
+
+            Assert.IsFalse(output.Contains("Value: 50"), "Wrong value shouldnt show.");
+            Assert.IsFalse(output.Contains("Value: 5"), "Wrong value shouldnt show.");
+            Assert.IsTrue(output.Contains("Value: 15"), "Right value should show.");
+
             sw.Dispose();
         }
     }
