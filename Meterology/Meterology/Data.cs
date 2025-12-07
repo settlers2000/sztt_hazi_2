@@ -9,75 +9,19 @@ namespace Meterology
 {
     public class Data
     {
-        private DateTime _timestamp;
-        private double _value;
-        private string _unit;
-        private bool _imported;
-        private string? _sensor;
-
-        public DateTime timestamp
-        {
-            get
-            {
-                return _timestamp;
-            }
-            set
-            {
-                _timestamp = value;
-            }
-        }
-        public double value
-        {
-            get
-            {
-                return _value;
-            }
-            set
-            {
-                _value = value;
-            }
-        }
-        public string unit              
-        {
-            get
-            {
-                return _unit;
-            }
-            set
-            {
-                _unit = value;
-            }
-        }
-        public bool imported
-        {
-            get
-            {
-                return _imported;
-            }
-            set
-            {
-                _imported = value;
-            }
-        }
-        public string sensor
-        {
-            get
-            {
-                return _sensor;
-            }
-            set
-            {
-                _sensor = value;
-            }
-        }
+        public DateTime timestamp { get; set; }
+        public double value { get; set; }
+        public string unit { get; set; }
+        public bool imported { get; set; }
+        public string? sensor { get; set; }
 
         public Data(DateTime timestamp, double value, string unit, bool imported, string sensor)
         {
-            this._timestamp = timestamp;
-            this._value = value;
-            this._unit = unit;
-            this._imported = imported;
-            this._sensor = sensor;
+            this.timestamp = timestamp;
+            this.value = value;
+            this.unit = unit;
+            this.imported = imported;
+            this.sensor = sensor;
         }
         public override string ToString()
         {

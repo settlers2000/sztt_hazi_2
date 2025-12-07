@@ -10,33 +10,23 @@ namespace Meterology
 {
     public class User
     {
-        private string _name;
-        public string name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                _name = value;
-            }
-        }
+        public string name { get; set; }
         public User(string name)
         {
-            this._name = name;
+            this.name = name;
         }
 
         public List<Data> loadData()
         {
             List<Data> list = new List<Data>();
-            IFileManager fileManager = new XmlManager();
             Console.WriteLine("Do you want to import or generate data?");
             while (true)
             {
                 var input = Console.ReadLine().ToLower();
                 if (input == "import")
                 {
+
+                    IFileManager fileManager = new XmlManager();
                     Console.WriteLine("Wich file? (Now usable for test: Data, Dataempty, Datamix Datawrong.xml)");
                     var file = Console.ReadLine();
                     list = fileManager.importFromFile(file);
