@@ -1,0 +1,122 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Meterology
+{
+    public static class UnitConverter
+    {
+        private static readonly Dictionary<string, (string category, string baseunit, Func<double, double> toBase, Func<double, double> frombase)> map = new Dictionary<string, (string category, string baseunit, Func<double, double> toBase, Func<double, double> frombase)>()
+        {
+            {"c", ("temperature", "°C", val => val, val => val)},
+            {"°c" , ("temperature", "°C", val => val, val => val)},
+            {"f" , ("temperature", "°C", val => (val - 32) / (9.0/5.0), val => (val * (9.0/5.0)) + 32)},
+            {"°f" , ("temperature", "°C", val => (val - 32) / (9.0/5.0), val => (val * (9.0/5.0)) + 32)},
+            {"k" , ("temperature", "°C", val => val - 273.15, val => val + 273.15)},
+
+            {"m" , ("size", "m", val => val, val => val)},
+            {"dm" , ("size", "m", val => val / 10, val => val * 10)},
+            {"cm" , ("size", "m", val => val / 100, val => val * 100)},
+            {"mm" , ("size", "m", val => val / 1000, val => val * 1000)},
+            {"km" , ("size", "m", val => val * 1000, val => val / 1000)},
+            {"ft" , ("size", "m", val => val * 0.3048, val => val / 0.3048)},
+            {"in" , ("size", "m", val => val * 0.0254, val => val / 0.0254)},
+
+            {"hpa", ("pressure", "hpa", val => val, val => val)},
+            {"mb" , ("pressure", "hpa", val => val, val => val)},
+            {"pa" , ("pressure", "hpa", val => val / 100, val => val * 100)},
+            {"bar" , ("pressure", "hpa", val => val * 1000, val => val / 1000)},
+            {"atm" , ("pressure", "hpa", val => val * 1013.25, val => val / 1013.25)},
+            {"mmhg" , ("pressure", "hpa", val => val * 1.33322, val => val / 1.33322)},
+            {"psi" , ("pressure", "hpa", val => val * 68.9476, val => val / 68.9476)},
+
+            {"m/s" , ("wind", "m/s", val => val, val => val)},
+            {"km/h" , ("wind", "m/s", val => val / 3.6, val => val * 3.6)},
+            {"mph" , ("wind", "m/s", val => val * 0.44704, val => val / 0.44704)},
+            {"kt" , ("wind", "m/s", val => val * 0.51444, val => val / 0.51444)},
+            {"kn" , ("wind", "m/s", val => val * 0.51444, val => val / 0.51444)},
+
+            {"%" , ("rain", "%", val => val, val => val)},
+        };
+
+        public static void changeDefaultUnit(List<Data> list, string unit)
+        {
+            var lowerunit = unit.ToLower();
+            //Ha ismeretlen unitot kapunk.
+            if (!map.ContainsKey(lowerunit))
+            {
+                Console.WriteLine("Unknown unit!");
+                return;
+            }
+            else
+            {
+                //kiválaszt a hashmapből
+                var targetRule = map[lowerunit];
+
+                foreach(var data in list)
+                {
+                    var current = data.unit.ToLower();
+
+                    //ha a jelenlegi unit benne van a hashmapbe
+                    if (map.ContainsKey(current))
+                    {
+                        var currentRule = map[current];
+
+                        //Összevetjük a 2 kategóriát és ha megegyezik átváltunk.
+                        if(currentRule.category == targetRule.category)
+                        {
+                            double baseVal = currentRule.toBase(data.value);
+                            double final = targetRule.frombase(baseVal);
+
+                            data.value = final;
+                            data.unit = lowerunit;
+                        }
+                    }
+                }
+            }
+            Console.WriteLine($"The new default unit is {unit}!");
+        }
+
+        public class NormalizedData()
+        {
+            public double value { get; set; }
+            public string baseunit { get; set; }
+            public string category { get; set; }
+            public DateTime timestamp { get; set; }
+        }
+        public static NormalizedData Normalize(Data data)
+        {
+            //A kulcs a unit.
+            var key = data.unit;
+
+            //Ha van ilyen kulcs.
+            if (map.ContainsKey(key))
+            {
+                var value = map[key];
+                return new NormalizedData
+                {
+                    value = value.toBase(data.value),
+                    baseunit = value.baseunit,
+                    category = value.category,
+                    timestamp = data.timestamp
+                };
+            }
+            else
+            {
+                return new NormalizedData
+                {
+                    value = data.value,
+                    baseunit = data.unit,
+                    category = "unknown",
+                    timestamp = data.timestamp
+                };
+            }
+        }
+        public static List<string> getElements()
+        {
+            return map.Keys.ToList();
+        }
+    }
+}
