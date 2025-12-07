@@ -128,7 +128,7 @@ namespace MeterologyTest
 
             try
             {
-                bool result = admin.changeUser(ref user, users, "user");
+                bool result = admin.changeUser(ref user, users2, "user");
             }
             catch (NullReferenceException)
             {
